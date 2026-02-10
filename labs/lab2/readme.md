@@ -86,3 +86,55 @@ server {
 2. Select the nginx.conf file in the editor file tree.
 
 3. Replace the existing content with the following:
+
+```nginx 
+   # Nginx 4 Azure - Default - Updated Nginx.conf
+user nginx;
+worker_processes auto;
+worker_rlimit_nofile 8192;
+pid /run/nginx/nginx.pid;
+
+events {
+    worker_connections 4000;
+}
+
+error_log /var/log/nginx/error.log error;
+
+http {
+    include /etc/nginx/mime.types;
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+                      
+    access_log off;
+    server_tokens "";
+    
+    server {
+        listen 80 default_server;
+        server_name localhost;
+        location / {
+            root /var/www;
+            index index.html;
+        }
+    }
+
+    # Load the modular files created in previous steps
+    include /etc/nginx/conf.d/*.conf;
+}
+```
+3.  Click the Submit button. NGINX will validate your configuration. If successful, it will reload with your new settings.
+
+#### Test and Verify
+
+1. Update Local DNS
+ 
+ Update your local system's hosts file to resolve cafe.example.com to your NGINX Public IP.
+
+  File Path: /etc/hosts (Linux/Mac) or C:\Windows\System32\drivers\etc\hosts (Windows)
+
+Entry: [NGINX_PUBLIC_IP] cafe.example.com
+
+2. Verify via CLI
+Run the following command in a terminal:
+
+'''curl -I [http://cafe.example.com](http://cafe.example.com)'''
