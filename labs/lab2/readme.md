@@ -55,7 +55,7 @@ http {
     include /etc/nginx/conf.d/*.conf;
 }
 
-
+```
 Create the modular config file: Click the + New File button in the Configuration Editor tool.
 
 Name the new file: /etc/nginx/conf.d/cafe.example.com.conf.
@@ -64,6 +64,7 @@ Add the Upstream and Server blocks: Copy and paste the following contents into t
 
 Note: Replace [VM_INTERNAL_IP] with the private IP of your pre-provisioned Ubuntu VM.
 
+```
 upstream docker_backend {
     # Replace [VM_INTERNAL_IP] with the private IP of your Ubuntu VM
     server [VM_INTERNAL_IP]:80;
@@ -81,7 +82,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
-
+```
 1. Open Azure portal within your browser and then open your Resource Group. Click on your NGINX for Azure resource (nginx4a) which should open the Overview section of your resource. From the left pane click on `NGINX Configuration` under Settings.
 
 1. Click on `+ New File`, to create a new Nginx config file. Name the new file `/etc/nginx/conf.d/cafe-docker-upstreams.conf`.
