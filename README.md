@@ -1,12 +1,7 @@
-# Solutions Engineering Template Repository
+# Mastering cloud-native app delivery: Unlocking advanced capabilities and use cases with F5’s ADCaaS
 
-A template repository that contains all required files (LICENSE, SUPPORT, CONTRIBUTING, etc) as outlined in the org standards.  
+Take your cloud infrastructure to the next level in this 2-hour hands-on lab featuring F5 NGINXaaS for Azure and Google Cloud! Dive into real-world use cases that push beyond the limitations of default cloud tools—master advanced traffic management, dynamic load balancing, and intelligent application routing capabilities that standard solutions can't deliver.
 
-The sections below are recommended in your project's README.md file.
-
-## Overview
-
-Provide a short overview of the project.
 
 ## Getting Started
 
