@@ -58,6 +58,23 @@ http {
     include /etc/nginx/conf.d/*.conf;
 }
 ```
+4. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+   
+```nginx
+  server {
+    listen 80;
+    server_name juiceshop.example.com;
+
+    location / {
+        # Apply the rate limit
+        # 'burst=5' allows a small buffer, 'nodelay' ensures immediate response
+        limit_req zone=mylimit burst=5 nodelay;
+
+        proxy_pass http://juiceshop_backend;
+        proxy_set_header Host $host;
+    }
+}
+```
 5. Click Submit.
 
 ### Task 3: Test the Rate Limit
