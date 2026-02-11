@@ -124,17 +124,60 @@ http {
 ```
 3.  Click the Submit button. NGINX will validate your configuration. If successful, it will reload with your new settings.
 
-#### Test and Verify
 
-1. Update Local DNS
- 
- Update your local system's hosts file to resolve cafe.example.com to your NGINX Public IP.
+### Test your Nginx for Azure configuration
 
-  File Path: /etc/hosts (Linux/Mac) or C:\Windows\System32\drivers\etc\hosts (Windows)
+1. For easy access your new website, update your local system's DNS `/etc/hosts` file. You will add the hostname `cafe.example.com` and the Nginx for Azure Public IP address, to your local system DNS hosts file for name resolution.  Your Nginx for Azure Public IP address can be found in your Azure Portal, under `n4a-publicIP`.  Use vi tool or any other text editor to add an entry to `/etc/hosts` as shown below:
 
-Entry: [NGINX_PUBLIC_IP] cafe.example.com
+    ```bash
+    cat /etc/hosts
 
-2. Verify via CLI
-Run the following command in a terminal:
+    127.0.0.1 localhost
+    ...
 
-'''curl -I [http://cafe.example.com](http://cafe.example.com)'''
+    # Nginx for Azure testing
+    11.22.33.44 cafe.example.com
+
+    ...
+    ```
+
+    where
+   - `11.22.33.44` replace with your `n4a-publicIP` resource IP address.
+
+1. Once you have updated the host your /etc/hosts file, save it and quit vi tool.
+
+1. Using a new Terminal, send a curl command to `http://cafe.example.com`, what do you see ?
+
+    ```bash
+    curl -I http://cafe.example.com
+    ```
+
+    ```bash
+    ##Sample Output##
+    HTTP/1.1 200 OK
+    Date: Thu, 04 Apr 2024 21:36:30 GMT
+    Content-Type: text/html; charset=utf-8
+    Connection: keep-alive
+    Expires: Thu, 04 Apr 2024 21:36:29 GMT
+    Cache-Control: no-cache
+    X-Proxy-Pass: cafe_nginx
+    ```
+
+    Try the coffee and tea URLs, at http://cafe.example.com/coffee and http://cafe.example.com/tea.
+
+    You should see a 200 OK Response.  Did you see the `X-Proxy-Pass` header - set to the Upstream block name?  
+
+1. Now try access to your cafe application with a Browser. Open Chrome, and nagivate to `http://cafe.example.com`. You should see an `Out of Stock` image, with a gray metadata panel, filled with names, IP addresses, URLs, etc. This panel comes from the Docker container, using Nginx $variables to populate the gray panel fields. If you Right+Click, and Inspect to open Chrome Developer Tools, and look at the Response Headers, you should be able to see the `Server and X-Proxy-Pass Headers` set respectively.
+
+![Cafe Out of Stock](media/lab2_cafe-out-of-stock.png)
+
+Click Refresh serveral times.  You will notice the `Server Name` and `Server Ip` fields changing, as N4A is round-robin load balancing the three Docker containers - docker-web1, 2, and 3 respectively.  If you open Chrome Developer Tools, and look at the Response Headers, you should be able to see the Server and X-Proxy-Pass Headers set respectively.
+
+![Cafe Inspect](media/lab2_cafe-inspect.png)
+
+Try http://cafe.example.com/coffee and http://cafe.example.com/tea in Chrome, refreshing several times.  You should find Nginx for Azure is load balancing these Docker web containers as expected.
+
+>**Congratulations!!**  You have just completed launching a simple web application with Nginx for Azure, running on the Internet, with just a VM, Docker, and 2 config files for Nginx for Azure.  That pretty easy, not so hard now, was it?
+
+<br/>
+
