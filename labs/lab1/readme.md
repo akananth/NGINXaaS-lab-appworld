@@ -24,11 +24,23 @@ To maximize our time during this workshop, the following baseline infrastructure
 ### Task 1: Deploy an NGINX for Azure Resource
 Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisioned network and identity.
 
-1.  In the Azure Portal, search for **NGINX for Azure**.
-2.  Click **Create** and select the **Standard Monthly** SKU.
-3.  Under the **Networking** tab, select the pre-provisioned VNet and delegated subnet.
-4.  Associate the **Public IP** and the **User Assigned Managed Identity** created during the setup phase.
-5.  Click **Review + Create**.
+1.  In the Azure Portal, search for and select **NGINX for Azure**.
+2.  Click **Create**.
+3.  **Basics Tab:**
+    * **Resource Group:** Select the specific Resource Group assigned to you for this workshop.
+    * **Deployment Name:** Give your deployment a unique name (e.g., `nginx-deployment-lab1`).
+    * **Region:** Select the region specified by your instructor.
+    * **SKU:** Select the **Standard Monthly** SKU.
+    * **NCU Capacity:** Enter the NGINX Capacity Unit (NCU) amount as directed by the lab requirements.
+4.  **Networking Tab:**
+    * **Virtual Network:** Select the VNet assigned to your resource group.
+    * **Subnet:** Select the delegated subnet designated for NGINX.
+    * **Access Consent:** Click the checkbox for **"I allow NGINX service provider to access the above virtual network for deployment."**
+    * **Public IP:** Select the pre-provisioned Public IP address.
+5.  **Identity Tab:**
+    * Associate the **User Assigned Managed Identity** created during the setup phase.
+6.  **Review + Create:**
+    * Click **Review + Create**. Once validation passes, click **Create** to launch your NGINX instance.
 
 ### Task 2: Create Log Analytics Workspace & Enable Monitoring
 Before exploring the resource, we will set up the logging destination to ensure all subsequent activity is captured.
@@ -41,7 +53,6 @@ Before exploring the resource, we will set up the logging destination to ensure 
 6.  Check both **nginxAccessLog** and **nginxErrorLog**.
 7.  Under "Destination details," check **Send to Log Analytics workspace** and select the workspace you just created.
 8.  **Save** the settings.
-
 
 
 ### Task 3: Explore NGINX for Azure
