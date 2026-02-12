@@ -14,13 +14,40 @@ The following resources are prepared for this lab:
 
 ## 🚀 Lab Exercises
 
-### Task 1: Configure NGINX for Juice Shop
-First, we must point NGINX to the new Juice Shop backend.
+### Task 1: Create the Rate Limit Zones
+Instead of cluttering the main configuration, we will create a dedicated file for our limit definitions.
 
-1. Browse to your **NGINX for Azure** resource in the Portal.
-2. Under **Settings**, select **NGINX configuration**.
-3. Create a new file: `/etc/nginx/conf.d/juiceshop.conf`.
-4. Paste the following configuration, replacing `[VM_INTERNAL_IP]` with your Ubuntu VM's private IP:
+1. In the Azure Portal, go to your NGINX for Azure resource.
+
+2. Select NGINX configuration -> Edit.
+
+3. Click + New File and name it: /etc/nginx/includes/rate-limits.conf.
+
+4. Copy and paste the following  standard definitions:
+
+```nginx
+## Define HTTP Request Limit Zones
+limit_req_zone $binary_remote_addr zone=limitone:10m rate=1r/s;
+limit_req_zone $binary_remote_addr zone=limit10:10m rate=10r/s;
+limit_req_zone $binary_remote_addr zone=limit100:10m rate=100r/s;
+limit_req_zone $binary_remote_addr zone=limit1000:10m rate=1000r/s;
+```
+
+### Task 2: Include and Apply the Limits
+
+Now, we must tell NGINX to load these zones and apply the limitone (1 request per second) policy to Juice Shop.
+
+1. Open /etc/nginx/nginx.conf.
+
+2. Inside the http {} block, add the include line before your server blocks:
+
+```nginx
+   include /etc/nginx/includes/rate-limits.conf;
+```
+
+3. Open (or create) /etc/nginx/conf.d/juiceshop.conf and update the location block:
+
+  we must point NGINX to the new Juice Shop backend. Paste the following configuration, replacing `[VM_INTERNAL_IP]` with your Ubuntu VM's private IP:
 
 ```nginx
 upstream juiceshop_backend {
@@ -30,52 +57,22 @@ upstream juiceshop_backend {
 server {
     listen 80;
     server_name juiceshop.example.com;
+    # ADD THIS for Azure Portal Metrics visibility
+    status_zone juiceshop.example.com; 
+    access_log  /var/log/nginx/juiceshop.example.com.log main_ext;   # Extended Logging
+    error_log   /var/log/nginx/juiceshop.example.com_error.log info;
 
     location / {
+       # Apply the 'limitone' zone defined in Task 1
+        limit_req zone=limitone burst=3 nodelay;
         proxy_pass http://juiceshop_backend;
         proxy_set_header Host $host;
     }
 }
 ```
-5. Submit and verify you can access the Juice Shop via your browser (ensure your hosts file is updated for juiceshop.example.com).
+4. Submit and verify you can access the Juice Shop via your browser (ensure your hosts file is updated for juiceshop.example.com).
 
-### Task 2: Implement Rate Limiting
 
-Now, we will restrict the number of requests a single client can make to prevent abuse.
-
-1. Go back to the NGINX Configuration editor in the Azure Portal.
-
-2. Open your main /etc/nginx/nginx.conf file.
-
-3. In the http block (above the include line), define the rate limit zone:
-
-```nginx
-http {
-    # Define a shared memory zone 'mylimit' to track IP addresses 
-    # and allow 1 request per second (1r/s)
-    limit_req_zone $binary_remote_addr zone=mylimit:10m rate=1r/s;
-
-    include /etc/nginx/conf.d/*.conf;
-}
-```
-4. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
-   
-```nginx
-  server {
-    listen 80;
-    server_name juiceshop.example.com;
-
-    location / {
-        # Apply the rate limit
-        # 'burst=5' allows a small buffer, 'nodelay' ensures immediate response
-        limit_req zone=mylimit burst=5 nodelay;
-
-        proxy_pass http://juiceshop_backend;
-        proxy_set_header Host $host;
-    }
-}
-```
-5. Click Submit.
 
 ### Task 3: Test the Rate Limit
 
@@ -86,7 +83,7 @@ http {
  3. Run a loop to hit the site rapidly:
 
 ```bash
-  for i in {1..10}; do curl -I [http://juiceshop.example.com](http://juiceshop.example.com); done
+  for i in {1..12}; do curl -I -H "Host: juiceshop.example.com" http://52.228.229.230; done
 ```
 
 4. Observe the results: You should see several 200 OK responses followed by 503 Service Temporarily Unavailable (or 429 Too Many Requests depending on NGINX version/config) as the rate limit kicks in.
@@ -97,12 +94,12 @@ http {
 
  2. Run the following query to see the rejected requests:
 
-```code snippet
-NGINXAccessLogs
-| where HttpStatus >= 400
-| project TimeGenerated, ClientIp, RequestUri, HttpStatus
-| order by TimeGenerated desc
 ```
-
+NGXOperationLogs
+| where FilePath == "/var/log/nginx/access.log"
+| where Message contains "503"
+| summarize Count = count() by bin(TimeGenerated, 1m)
+| render barchart with (title="Lab 4: Blocked Requests (503) per Minute")
+```
 
 Congratulations on completing Lab 4!
