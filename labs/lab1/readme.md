@@ -71,12 +71,9 @@ Before exploring the resource, we will set up the logging destination to ensure 
 8.  **Save** the settings.
 
 
-### Task 3: Explore NGINX for Azure
-Now that your resource is live and monitored, take a few minutes to explore the NGINX resource in the Azure Portal.
+### Explore Nginx for Azure
 
-* **Overview:** View the status, SKU, and Public IP.
-* **NGINX Configuration:** Note where the configuration files are managed directly in the portal.
-* **Metrics:** Observe the built-in dashboards for HTTP requests and upstream health.
+<br/>
 
 NGINX as a Service for Azure is a service offering that is tightly integrated into Microsoft Azure public cloud and its ecosystem, making applications fast, efficient, and reliable with full lifecycle management of advanced NGINX traffic services. NGINXaaS for Azure is available in the Azure Marketplace.
 
@@ -84,9 +81,41 @@ NGINXaaS for Azure is powered by NGINX Plus, which extends NGINX Open Source wit
 
 In this section you will be looking at NGINX for Azure resource that you created within Azure portal.
 
-Open Azure portal within your browser and then open your resource group.
+1. Open Azure portal within your browser and then open your resource group.
 
+   ![Portal ResourceGroup home](images/lab1_portal_rg_home.png)
 
+2. Click on your NGINX for Azure resource (nginx4a) which should open the Overview section of your resource. You can see useful information like Status, NGINX for Azure resource's public IP, which Nginx version is running, which vnet/subnet it is using, etc.
+
+   ![Portal N4A home](images/lab1_portal_n4a_home.png)
+
+3. From the left pane click on `Settings > NGINX Configuration`. As you are opening this resource for first time and you do not have any configuration present, Azure will prompt you to "Get started with a Configuration example". Click on `Populate now` button to start with a sample configuration example.
+
+   ![nginx conf populate](images/lab1_nginx_conf_populate.png)
+
+4. Once you click on the `Populate now` button you will see the configuration editor section has been populated with `nginx.conf` and an `index.html` page. Click on the `Submit` button to deploy this sample config files to the NGINX for Azure resource.
+
+   ![nginx conf editor](images/lab1_nginx_conf_editor.png)
+
+5. Once you have submitted the configuration, you can watch its progress in the notification tab present in right top corner. Intially status would be "Updating NGINX configuration" which would change to "Updated NGINX configuration successfully".
+
+   ![nginx conf submit success](images/lab1_nginx_conf_submit_success.png)
+
+6. Navigate back to Overview section and copy the public IP address of NGINX for Azure resource.
+
+   ![Copy IP Address](images/lab1_copy_ip_address.png)
+
+7. In a new browser window, paste the public IP into the address bar. You will notice the sample index page gets rendered into your browser.
+
+   ![n4a Index Page](images/lab1_n4a_index_page.png)
+
+8. Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
+
+<br/>
+
+**This completes Lab1.**
+
+<br/>
 
 
 Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
