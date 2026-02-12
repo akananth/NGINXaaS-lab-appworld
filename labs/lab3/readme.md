@@ -34,7 +34,7 @@ By the end of the lab you will be able to:
 
 1. Within Azure portal, open your resource group and then open your NGINX for Azure resource (nginx4a). From the left pane click on `Settings > NGINX Configuration`. This should open the configuration editor section. Open `nginx.conf` file.
 
-    ![NGINX Config](media/lab6_nginx_conf_editor.png)
+    ![NGINX Config](images/lab6_nginx_conf_editor.png)
 
 1. You will notice in previous labs, you have added the default basic log format inside the `http` block within the `nginx.conf` file as highlighted in above screenshot. You will make use of this log format initially to capture some useful metrics within NGINX logs.
 
@@ -50,7 +50,7 @@ By the end of the lab you will be able to:
     access_log  /var/log/nginx/access.log  main;
     ```
 
-    ![Access log update](media/lab6_main_access_log_update.png)
+    ![Access log update](images/lab6_main_access_log_update.png)
 
 1. In subsequent sections you will test out the logs inside log analytics workspace.
 
@@ -84,7 +84,7 @@ In this section you will create an extended log format which you will use with `
                             'upstream_response_length="$upstream_response_length", ';
     ```
 
-    ![Extended log format add](media/lab6_main_ext_logformat_add.png)
+    ![Extended log format add](images/lab6_main_ext_logformat_add.png)
 
 1. Once the extended log format has been created, open `cafe.example.com.conf` file and update the `access_log` to make use of the extended log format as shown in the below screenshot. Click on `Submit` to apply the changes.
 
@@ -92,7 +92,7 @@ In this section you will create an extended log format which you will use with `
     access_log  /var/log/nginx/cafe.example.com.log main_ext;
     ```
 
-    ![cafe access log format update](media/lab6_cafe_access_log_update.png)
+    ![cafe access log format update](images/lab6_cafe_access_log_update.png)
 
 1. In the next section, you will test out the extended log format within inside log analytics workspace.
 
@@ -129,11 +129,11 @@ In this section you will create an extended log format which you will use with `
 
 1. Within Azure portal, open your NGINX for Azure resource (nginx4a). From the left pane click on `Monitoring > Logs`. This should open a new Qeury pane. Select `Resource type` from drop down and then type in `nginx` in the search box. This should show all the sample queries related to NGINX for Azure. Under `Show NGINXaaS access logs` click on `Run` button
 
-    ![nginx4a logs](media/nginx4a_logs.png)
+    ![nginx4a logs](images/nginx4a_logs.png)
 
 1. This should open a `new query` window, which is made up of a query editor pane at the top and query result pane at the bottom as shown in the below screenshot.
 
-    ![default query](media/lab6_default_query.png)
+    ![default query](images/lab6_default_query.png)
 
     > **NOTE:** The logs may take couple of minutes to show up. If the results pane doesn't show the logs then wait for a minute and then click on the `Run` button to run the query again.
 
@@ -151,15 +151,15 @@ In this section you will create an extended log format which you will use with `
     | limit 100
     ```
 
-    ![cafe query](media/lab6_cafe_query.png)
+    ![cafe query](images/lab6_cafe_query.png)
 
 1. Within the Results pane, expand one of the logs to look into its details. You can also hover your mouse over the message to show the message details as shown in below screenshot. Note that the message follows the `main_ext` log format.
 
-    ![cafe query details](media/lab6_cafe_query_details.png)
+    ![cafe query details](images/lab6_cafe_query_details.png)
 
 1. You can save the custom query if you wish by clicking on the `Save` button and then selecting `Save as query`. Within the `Save as query` pane provide a query name and optional description and then finally click on `Save` button.
 
-    ![cafe query save](media/lab6_cafe_query_save.png)
+    ![cafe query save](images/lab6_cafe_query_save.png)
 
 
 **This completes Lab6.**
