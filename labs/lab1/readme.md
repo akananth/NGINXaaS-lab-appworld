@@ -58,21 +58,26 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
 6.  **Review + Create:**
     * Click **Review + Create**. Once validation passes, click **Create** to launch your NGINX instance.
  
-  ![Deploy NGINXaaS](images/lab1_deploy_nginxaas.png)
   
 ### Task 2: Create Log Analytics Workspace & Enable Monitoring
 Before exploring the resource, we will set up the logging destination to ensure all subsequent activity is captured.
 
 1.  In the Azure Portal, search for and select **Log Analytics workspaces**.
 2.  Click **Create**, select your **Resource Group**, and name it (e.g., `nginx-workshop-logs`).
+
+  ![Create Log Analytics](images/lab1_create_log.png)
+  
 3.  Once created, navigate back to your **NGINX for Azure resource**.
 4.  Under the **Monitoring** section, select **Diagnostic settings**.
-5.  Select **+ Add diagnostic setting**.
-6.  Check both **nginxAccessLog** and **nginxErrorLog**.
+
+ ![Create Diagnostic settings](images/lab1_create_diagonistic_1.png)
+    
+5.  Select **+ Add diagnostic setting**.Give a name.
+6.  Check both **nginxAccessLog** and **nginxsecurityLog**.
 7.  Under "Destination details," check **Send to Log Analytics workspace** and select the workspace you just created.
 8.  **Save** the settings.
 
-  ![Create Log Analytics](images/lab1_create_log.png)
+  ![Create Diagnostic settings](images/lab1_create_diagonistic_2.png)
 
 ### Explore Nginx for Azure
 
