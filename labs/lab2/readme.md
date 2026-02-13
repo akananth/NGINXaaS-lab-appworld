@@ -267,6 +267,11 @@ Click Refresh serveral times.  You will notice the `Server Name` and `Server Ip`
 
 Try http://cafe.example.com/coffee and http://cafe.example.com/tea in Chrome, refreshing several times.  You should find Nginx for Azure is load balancing these Docker web containers as expected.
 
+![Cafe_coffee](images/lab2_coffee.png)
+
+![Cafe tea](images/lab2_tea.png)
+
+
 >**Congratulations!!**  You have just completed launching a simple web application with Nginx for Azure, running on the Internet, with just a VM, Docker, and 2 config files for Nginx for Azure.  That pretty easy, not so hard now, was it?
 
 <br/>
