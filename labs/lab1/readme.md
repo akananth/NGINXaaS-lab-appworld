@@ -28,7 +28,7 @@ To maximize our time during this workshop, the following baseline infrastructure
 
 <br/>
 
-![lab1 diagram](media/lab1_diagram.png)
+![lab1 diagram](images/lab1_diagram.png)
 
 <br/>
 
@@ -60,26 +60,31 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * Associate the **User Assigned Managed Identity** created during the setup phase.
 6.  **Review + Create:**
     * Click **Review + Create**. Once validation passes, click **Create** to launch your NGINX instance.
-
+ 
+  
 ### Task 2: Create Log Analytics Workspace & Enable Monitoring
 Before exploring the resource, we will set up the logging destination to ensure all subsequent activity is captured.
 
 1.  In the Azure Portal, search for and select **Log Analytics workspaces**.
 2.  Click **Create**, select your **Resource Group**, and name it (e.g., `nginx-workshop-logs`).
+
+  ![Create Log Analytics](images/lab1_create_log.png)
+  
 3.  Once created, navigate back to your **NGINX for Azure resource**.
 4.  Under the **Monitoring** section, select **Diagnostic settings**.
-5.  Select **+ Add diagnostic setting**.
-6.  Check both **nginxAccessLog** and **nginxErrorLog**.
+
+ ![Create Diagnostic settings](images/lab1_create_diagonistic_1.png)
+    
+5.  Select **+ Add diagnostic setting**.Give a name.
+6.  Check both **nginxAccessLog** and **nginxsecurityLog**.
 7.  Under "Destination details," check **Send to Log Analytics workspace** and select the workspace you just created.
 8.  **Save** the settings.
 
+  ![Create Diagnostic settings](images/lab1_create_diagonistic_2.png)
 
-### Task 3: Explore NGINX for Azure
-Now that your resource is live and monitored, take a few minutes to explore the NGINX resource in the Azure Portal.
+### Explore Nginx for Azure
 
-* **Overview:** View the status, SKU, and Public IP.
-* **NGINX Configuration:** Note where the configuration files are managed directly in the portal.
-* **Metrics:** Observe the built-in dashboards for HTTP requests and upstream health.
+<br/>
 
 NGINX as a Service for Azure is a service offering that is tightly integrated into Microsoft Azure public cloud and its ecosystem, making applications fast, efficient, and reliable with full lifecycle management of advanced NGINX traffic services. NGINXaaS for Azure is available in the Azure Marketplace.
 
@@ -87,9 +92,29 @@ NGINXaaS for Azure is powered by NGINX Plus, which extends NGINX Open Source wit
 
 In this section you will be looking at NGINX for Azure resource that you created within Azure portal.
 
-Open Azure portal within your browser and then open your resource group.
+1. Open Azure portal within your browser and then open your resource group.
 
+   ![Portal ResourceGroup home](images/lab1_portal_rg_home.png)
 
+2. Click on your NGINX for Azure resource (nginx4a) which should open the Overview section of your resource. You can see useful information like Status, NGINX for Azure resource's public IP, which Nginx version is running, which vnet/subnet it is using, etc.
+
+   ![Portal N4A home](images/lab1_portal_n4a_home.png)
+
+3. Navigate back to Overview section and copy the public IP address of NGINX for Azure resource.
+
+   ![Copy IP Address](images/lab1_copy_ip_address.png)
+
+4. In a new browser window, paste the public IP into the address bar. You will notice the sample index page gets rendered into your browser.
+
+   ![n4a Index Page](images/lab1_n4a_index_page.png)
+
+5. Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
+
+<br/>
+
+**This completes Lab1.**
+
+<br/>
 
 
 Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
