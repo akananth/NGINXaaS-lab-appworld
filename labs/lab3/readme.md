@@ -176,11 +176,12 @@ In this section you will create an extended log format which you will use with `
 
     ![default chart](images/lab3_default_chart.png)
 
-1. For the first chart, within **Metric Namespace** drop-down, select `nginx requests and response statistics`. For the **metrics** drop-down, select `plus.http.request.count`. For the **Aggregation** drop-down, select `Avg`.
+1. For the first chart, within **Metric Namespace** drop-down, select `nginx requests and response statistics`. For the **metrics** drop-down, select `server zone plus.http.request.count`. For the **Aggregation** , select `sum`.
 
    Click on the **Apply Splitting** button. Within the **Values** drop-down, select `server_zone`. From top right change the **Time range** to `Last 30 minutes` and click on `Apply`. This should generate a chart similar to the below screenshot.
 
     ![server zone request chart](images/lab3_server_request_chart.png)
+
 
 1. You will now save this chart in a new custom dashboard. Within the chart pane, click on `Save to dashboard > Pin to dashboard`.
 
