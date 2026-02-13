@@ -33,6 +33,8 @@ Prior to configuring the WAF policy, run some common L7 HTTP vulnerability attac
      * /?cmd=cat%20/etc/passwd
      * /product?id=4%20OR%201=1
      * /cart?search=aaa'><script>prompt('Please+enter+your+password');</script>
+     * /../../../../etc/shadow
+     * /product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
 ```
 
 Observe the results (NEED DESCRIPTION OF WHAT STUDENT SHOULD EXPECT TO SEE)
@@ -54,28 +56,43 @@ For a list of additional options that can be use to further customize your NGINX
 
 Create the Nginx for Azure configuration needed for the new WAF-protected version of juiceshop.example.com.
 
-Using the Nginx for Azure Console, enable WAF by adding the following lines to /etc/nginx/conf.d/juiceshop.example.com.conf:
-- "load_module modules/ngx_http_app_protect_module.so;" in the main context.
-- "app_protect_enforcer_address 127.0.0.1:50000;" in the http context. (THIS CONTEXT WILL NEED TO BE ADDED FOR THIS LAB SECTION.)
-- The following lines in the location context:
-   - app_protect_enable on;
-   - app_protect_policy_file "/etc/app_protect/conf/NginxDefaultPolicy.json";
-   - app_protect_security_log_enable on;
-   - app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
+Using the Nginx for Azure Console, enable WAF by adding the following line to /etc/nginx/nginx.conf:
+- "load_module modules/ngx_http_app_protect_module.so;" in nginx.conf.
+- "app_protect_enforcer_address 127.0.0.1:50000;" in the http context.
 
+The nginx.conf file should now look like this:
 
-The juiceshop.example.com.conf file should now look like this:
+    # Nginx 4 Azure - Default - Updated Nginx.conf
+    user nginx;
+    worker_processes auto;
+    worker_rlimit_nofile 8192;
+    pid /run/nginx/nginx.pid;
+    
+    load_module modules/ngx_http_app_protect_module.so;
+    
+    events {
+        worker_connections 4000;
+        }
+        
+    error_log /var/log/nginx/error.log error;
+    
+    http {
+        include /etc/nginx/mime.types;
+        limit_req_zone $binary_remote_addr zone=mylimit:10m rate=1r/s;
+        
+        app_protect_enforcer_address 127.0.0.1:50000;
+        ...
 
-(THIS CONFIG NEEDS CLEANUP)
+Next, add the following lines to /etc/nginx/conf.d/juiceshop.conf, within the server context:
+- app_protect_enable on;
+- app_protect_policy_file "/etc/app_protect/conf/NginxDefaultPolicy.json";
+- app_protect_security_log_enable on;
+- app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
+
+The juiceshop.conf file should now look like this:
 
     # Nginx 4 Azure - Juiceshop Nginx HTTP
     # WAF for Juiceshop
-
-    # ADD THIS LINE TO LOAD WAF MODULE
-    load_module modules/ngx_http_app_protect_module.so;
-
-    # ADD THE ENFORCER ADDRESS BEFORE THE LOCATION BLOCK
-    app_protect_enforcer_address 127.0.0.1:50000;
 
     server {
         
@@ -88,9 +105,12 @@ The juiceshop.example.com.conf file should now look like this:
         access_log  /var/log/nginx/juiceshop.example.com.log main_ext;
         error_log   /var/log/nginx/juiceshop.example.com_error.log info;
 
-        # ADD THE ENFORCER ADDRESS BEFORE THE LOCATION BLOCK
-        ## DOES THIS NEED TO BE PLACED IN THE HTTP CONTEXT?
-        app_protect_enforcer_address 127.0.0.1:50000;
+        # NGINX WAF CONFIGURATION
+        app_protect_enable on;
+        app_protect_policy_file "/etc/app_protect/conf/NginxDefaultPolicy.json";
+        app_protect_security_log_enable on;
+        app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
+        # END OF NGINX WAF CONFIGURATION
 
         location / {
             
@@ -101,14 +121,6 @@ The juiceshop.example.com.conf file should now look like this:
             # limit_req_status 429;           # Set HTTP Return Code, better than 503s
             # limit_req_dry_run on;           # Test the Rate limit, logged, but not enforced
             # add_header X-Ratelimit-Status $limit_req_status;   # Add a custom status header
-
-            # NGINX WAF CONFIGURATION
-            ## CAN THIS BE MOVED OUTSIDE OF THE LOCATION BLOCK SO IT APPLIES TO ALL PATHS?
-            app_protect_enable on;
-            app_protect_policy_file "/etc/app_protect/conf/NginxDefaultPolicy.json";
-            app_protect_security_log_enable on;
-            app_protect_security_log "/etc/app_protect/conf/log_all.json" syslog:server=127.0.0.1:5140;
-            # END OF NGINX WAF CONFIGURATION
 
             proxy_pass http://aks1_ingress;       # Proxy to AKS1 Nginx Ingress Controllers
             add_header X-Proxy-Pass aks1_ingress_juiceshop;  # Custom Header
@@ -172,8 +184,10 @@ Now, test out the newly-deployed default WAF policy.
      security event data.
 ```
      * /?cmd=cat%20/etc/passwd
-     * /product?id=4%20OR%201=1
+     * /product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
      * /cart?search=aaa'><script>prompt('Please+enter+your+password');</script>
+     * /../../../../etc/shadow
+     * /product?id=4%20OR%201=1
 ```
 
 > Note:
@@ -182,4 +196,8 @@ Now, test out the newly-deployed default WAF policy.
 
    ## Expected Results
 
-  (Need to describe what students should expect to see and provide a screenshot.)
+If you applied the WAF policy correctly, each request should result in a page that indicates the URL was rejected.
+
+|           Web Browser            |
+| :--------------------------------------: |
+| ![NGINX aaS](WAF%20-%20URL%20block%20page.png) |

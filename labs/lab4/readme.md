@@ -44,11 +44,10 @@ Now, we must tell NGINX to load these zones and apply the limitone (1 request pe
 ```nginx
    include /etc/nginx/includes/rate-limits.conf;
 ```
+3. Click Submit.
 
-3. Open (or create) /etc/nginx/conf.d/juiceshop.conf and update the location block:
-
-  we must point NGINX to the new Juice Shop backend. Paste the following configuration, replacing `[VM_INTERNAL_IP]` with your Ubuntu VM's private IP:
-
+5. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+   
 ```nginx
 upstream juiceshop_backend {
     server [VM_INTERNAL_IP]:3000;
@@ -70,23 +69,41 @@ server {
     }
 }
 ```
-4. Submit and verify you can access the Juice Shop via your browser (ensure your hosts file is updated for juiceshop.example.com).
-
-
+6. Click Submit.
 
 ### Task 3: Test the Rate Limit
 
  1. To see the rate limiting in action, we need to send requests faster than 1 per second.
 
  2. Open a terminal on your local machine.
+ 
+ 3. Like before, update your local system's DNS `/etc/hosts` file. This time, you will add the hostname `juiceshop.example.com` after your previous update (`cafe.example.com`), as shown below:
 
- 3. Run a loop to hit the site rapidly:
+    ```bash
+    cat /etc/hosts
+
+    127.0.0.1 localhost
+    ...
+
+    # Nginx for Azure testing
+    11.22.33.44 cafe.example.com
+    11.22.33.44 juiceshop.example.com
+
+    ...
+    ```
+
+    where
+   - `11.22.33.44` replace with your `n4a-publicIP` resource IP address.
+
+ 4. Once you have updated the host your /etc/hosts file, save it and quit vi tool.
+ 
+ 5. Run a loop to hit the site rapidly:
 
 ```bash
-  for i in {1..12}; do curl -I -H "Host: juiceshop.example.com" http://52.228.229.230; done
+  for i in {1..10}; do curl -I http://juiceshop.example.com; done
 ```
 
-4. Observe the results: You should see several 200 OK responses followed by 503 Service Temporarily Unavailable (or 429 Too Many Requests depending on NGINX version/config) as the rate limit kicks in.
+6. Observe the results: You should see several 200 OK responses followed by 503 Service Temporarily Unavailable (or 429 Too Many Requests depending on NGINX version/config) as the rate limit kicks in.
 
 ### Task 4: Verify via Log Analytics
 

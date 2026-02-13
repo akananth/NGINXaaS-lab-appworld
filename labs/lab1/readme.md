@@ -46,13 +46,16 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * **Resource Group:** Select the specific Resource Group assigned to you for this workshop.
     * **Deployment Name:** Give your deployment a unique name (e.g., `nginx-deployment-lab1`).
     * **Region:** Select the region specified by your instructor.
-    * **SKU:** Select the **Standard Monthly** SKU.
+    * **SKU:** Select the **Standard V3** SKU.
     * **NCU Capacity:** Enter the NGINX Capacity Unit (NCU) amount as directed by the lab requirements.
 4.  **Networking Tab:**
     * **Virtual Network:** Select the VNet assigned to your resource group.
     * **Subnet:** Select the delegated subnet designated for NGINX.
     * **Access Consent:** Click the checkbox for **"I allow NGINX service provider to access the above virtual network for deployment."**
     * **Public IP:** Select the pre-provisioned Public IP address.
+    * **Public inbound ports:** Select "Allow selected ports" and check "Select all" in the drop-down menu.
+    * **Apply NGINX configuration:** Select "Default".
+    * **Enable F5 WAF for NGINX:** Select "true".
 5.  **Identity Tab:**
     * Associate the **User Assigned Managed Identity** created during the setup phase.
 6.  **Review + Create:**
