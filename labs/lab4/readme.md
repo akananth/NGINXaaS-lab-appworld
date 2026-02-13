@@ -87,6 +87,12 @@ server {
     }
 }
 ```
+
+Notice the 2 directives enabled:
+
+limit_req sets the active zone being used, in this example, limit100, meaning 100 requests/second. Burst is optional, allowing you to define an overage, allowing for some elasticity in the limit enforcement.
+add_header creates a Custom Header, and adds the limit_req_status $variable, so you can see it with Chrome Dev Tools or curl.
+
 6. Click Submit.
 
 ### Task 3: Test the Rate Limit
