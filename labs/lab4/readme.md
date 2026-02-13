@@ -130,22 +130,20 @@ add_header creates a Custom Header, and adds the limit_req_status $variable, so 
 
 1. In the Object Details Display Bar, where you see `Name Status Type Size, Time, etc`, Right+Click again, then `Response Headers`, then `Manage Header Columns`.  
 
-    ![Chrome Headers](media/lab9_chrome-add-headers.png)
+    ![Chrome Headers](images/lab4_chrome-add-headers.png)
 
-    You will be adding your THREE custom Nginx headers to the display for easy viewing.  Click on `Add custom header...` , input these names one at a time:
+    You will be adding your custom Nginx headers to the display for easy viewing.  Click on `Add custom header...` ,:
 
-    - X-Cache-Status
-    - X-Proxy-Pass
     - X-RateLimit-Status
    
 
 1.  You have previously added the Nginx Custom Headers to the display, so you should already have a Header Column labeled `X-Ratelimit-Status`. Click Refresh Several times, what do you see?
 
-    ![Nginx Limit 100](media/lab9_rate-100.png)
+    ![Nginx Limit 100](images/lab4_rate-100.png)
 
     You will see a partial Juiceshop webpage, as Nginx is only allowing your computer to send 100 req/s.  You see the Header status set to PASSED for requests that were allowed.  Other requests were stopped for `Exceeding the Rate Limit`. Check the HTTP Status Code on an item that failed, you will find the `503 Service Temporarily Unavailable`. Well, this is not actually the real situation, right? You have set a limit, not turned off the Service. So you will `change the HTTP Status code`, using the `limit_req_status` directive, which lets you set a custom HTTP Status code. The HTTP standard for "excessive requests" is normally `429.` So you will change it to that.
 
-    ![Nginx Limit 503](media/lab9_ratelimit-503.png)
+    ![Nginx Limit 503](images/lab9_ratelimit-503.png)
 
  
  This can also verified using your terminal. 
