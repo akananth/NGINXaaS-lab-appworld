@@ -198,7 +198,7 @@ In this section you will create an extended log format which you will use with `
 
 1. Within the chart pane, click on **Metric Namespace** drop-down and select `nginx upstream statistics`. For the **metrics** drop-down, select `plus.http.upstream.peers.response.time`. For the **Aggregation** drop-down, select `Avg`.
 
-    Click on the **Add filter** button. Within the **Property** drop-down, select `upstream`. Leave the **Operator** to `=`. In **values** drop-down, select `aks1_ingress`, `aks2_ingress` and `cafe_nginx`.
+    Click on the **Add filter** button. Within the **Property** drop-down, select `upstream`. Leave the **Operator** to `=`. In **values** drop-down, `cafe_nginx`.
 
     Click on the **Apply Splitting** button. Within the **Values** drop-down, select `upstream`. From top right change the **Time range** to `Last 30 minutes` and click on `Apply`. This should generate a chart similar to below screenshot.
 
