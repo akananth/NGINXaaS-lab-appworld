@@ -110,7 +110,8 @@ In this section you will be looking at NGINX for Azure resource that you created
 
 5. To make testing easier for future labs , we will store your NGINX Public IP in a variable.
 
- **Set your IP variable** (Replace with your actual NGINXaaS Public IP):
+   **Set your IP variable** (Replace with your actual NGINXaaS Public IP):
+
    ```bash
    export NGINX_IP="YOUR_NGINX_PUBLIC_IP"
    ```
@@ -120,11 +121,6 @@ In this section you will be looking at NGINX for Azure resource that you created
 
 **This completes Lab1.**
 
-<br/>
 
 
-Congratulations!!! you have successfully deployed the sample index page within NGINX for Azure. This also completes the validation of all the resources that you created using Azure CLI. In the upcoming labs you would be modifying the configuration files and exploring various features of NGINX for Azure resources.
-
-
-This completes Lab1.
 
