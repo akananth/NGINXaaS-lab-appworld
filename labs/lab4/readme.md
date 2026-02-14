@@ -68,22 +68,25 @@ Now, we must tell NGINX to load these zones and apply the limitone (1 request pe
    
 ```nginx
 upstream juiceshop_backend {
-    server [VM_INTERNAL_IP]:3000;
+    # Added a zone here too; it helps with Azure Metrics visibility for Upstreams
+    zone juiceshop_backend 64k;
+    server n4a-ubuntuvm:3000;
 }
 
 server {
     listen 80;
     server_name juiceshop.example.com;
-    # ADD THIS for Azure Portal Metrics visibility
     status_zone juiceshop.example.com; 
-    access_log  /var/log/nginx/juiceshop.example.com.log main_ext;   # Extended Logging
-    error_log   /var/log/nginx/juiceshop.example.com_error.log info;
 
     location / {
-       # Apply the 'limitone' zone defined in Task 1
-        limit_req zone=limitone burst=3 nodelay;
+        # This matches the 'zone=limitone' we just defined in rate-limit.conf
+        limit_req zone=limit100;  #burst=110;       # Set  Limit and burst here
+        
         proxy_pass http://juiceshop_backend;
         proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        add_header X-Ratelimit-Status $limit_req_status;   # Add a custom status header
+        
     }
 }
 ```
@@ -92,6 +95,33 @@ Notice the 2 directives enabled:
 
 limit_req sets the active zone being used, in this example, limit100, meaning 100 requests/second. Burst is optional, allowing you to define an overage, allowing for some elasticity in the limit enforcement.
 add_header creates a Custom Header, and adds the limit_req_status $variable, so you can see it with Chrome Dev Tools or curl.
+
+6.  During the next exercises, an updated main_ext logging format will be used, to capture Rate Limit logging variables.
+
+Update your nginx.conf 
+
+    ```nginx
+    # Extended Log Format
+   log_format  main_ext  'remote_addr="$remote_addr", '
+                        '[time_local=$time_local], '
+                        'request="$request", '
+                        'status="$status", '
+                        'http_referer="$http_referer", '
+                        'body_bytes_sent="$body_bytes_sent", '
+                        'Host="$host", '
+                        'sn="$server_name", '
+                        'request_time=$request_time, '
+                        'http_user_agent="$http_user_agent", '
+                        'http_x_forwarded_for="$http_x_forwarded_for", '
+                        'request_length="$request_length", '
+                        'upstream_address="$upstream_addr", '
+                        'upstream_status="$upstream_status", '
+                        'upstream_connect_time="$upstream_connect_time", '
+                        'upstream_header_time="$upstream_header_time", '
+                        'upstream_response_time="$upstream_response_time", '
+                        'upstream_response_length="$upstream_response_length", '
+                        'limitstatus="$limit_req_status" ';
+      ```
 
 6. Click Submit.
 
