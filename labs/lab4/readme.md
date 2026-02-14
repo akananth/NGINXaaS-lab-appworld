@@ -51,20 +51,9 @@ limit_req_zone $binary_remote_addr zone=limit100:10m rate=100r/s;
 limit_req_zone $binary_remote_addr zone=limit1000:10m rate=1000r/s;
 ```
 
-### Task 2: Include and Apply the Limits
+### Task 2: Apply the Rate Limits
 
-Now, we must tell NGINX to load these zones and apply the limitone (1 request per second) policy to Juice Shop.
-
-1. Open /etc/nginx/nginx.conf.
-
-2. Inside the http {} block, add the include line before your server blocks:
-
-```nginx
-   include /etc/nginx/includes/rate-limits.conf;
-```
-3. Click Submit.
-
-4. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+1. Now, need to add a new file and name it /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
 
    
 ```nginx
@@ -97,7 +86,7 @@ Notice the 2 directives enabled:
 - `limit_req` sets the active zone being used, in this example, limit100, meaning 100 requests/second. `Burst` is optional, allowing you to define an overage, allowing for some elasticity in the limit enforcement.
 - `add_header` creates a Custom Header, and adds the `limit_req_status $variable`, so you can see it with Chrome Dev Tools or curl.
 
-5.  Next updated the  main_ext logging format in nginx.conf file. it will be used, to capture Rate Limit logging variables.
+2.  Next updated the  main_ext logging format in nginx.conf file. it will be used, to capture Rate Limit logging variables.
 
 Update your nginx.conf 
 
@@ -123,7 +112,7 @@ Update your nginx.conf
                         'limitstatus="$limit_req_status" ';
   ```
 
-6. Click Submit.
+3. Click Submit.
 
 ### Task 3: Test the Rate Limit
 
