@@ -64,10 +64,11 @@ Now, we must tell NGINX to load these zones and apply the limitone (1 request pe
 ```
 3. Click Submit.
 
-5. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+4. Now, open /etc/nginx/conf.d/juiceshop.conf and apply the limit to the location block:
+
    
 ```nginx
-upstream juiceshop_backend {
+  upstream juiceshop_backend {
     # Added a zone here too; it helps with Azure Metrics visibility for Upstreams
     zone juiceshop_backend 64k;
     server n4a-ubuntuvm:3000;
@@ -93,15 +94,14 @@ server {
 
 Notice the 2 directives enabled:
 
-limit_req sets the active zone being used, in this example, limit100, meaning 100 requests/second. Burst is optional, allowing you to define an overage, allowing for some elasticity in the limit enforcement.
-add_header creates a Custom Header, and adds the limit_req_status $variable, so you can see it with Chrome Dev Tools or curl.
+- `limit_req` sets the active zone being used, in this example, limit100, meaning 100 requests/second. `Burst` is optional, allowing you to define an overage, allowing for some elasticity in the limit enforcement.
+- `add_header` creates a Custom Header, and adds the `limit_req_status $variable`, so you can see it with Chrome Dev Tools or curl.
 
-6.  During the next exercises, an updated main_ext logging format will be used, to capture Rate Limit logging variables.
+5.  Next updated the  main_ext logging format in nginx.conf file. it will be used, to capture Rate Limit logging variables.
 
 Update your nginx.conf 
 
-    ```nginx
-    # Extended Log Format
+  ```nginx
    log_format  main_ext  'remote_addr="$remote_addr", '
                         '[time_local=$time_local], '
                         'request="$request", '
@@ -121,7 +121,7 @@ Update your nginx.conf
                         'upstream_response_time="$upstream_response_time", '
                         'upstream_response_length="$upstream_response_length", '
                         'limitstatus="$limit_req_status" ';
-      ```
+  ```
 
 6. Click Submit.
 
