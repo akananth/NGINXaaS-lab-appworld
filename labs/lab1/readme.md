@@ -16,6 +16,7 @@ To maximize our time during this workshop, the following baseline infrastructure
 * **Network Security Group (NSG):** Pre-configured rules for inbound traffic (Port 80/443).
 * **Public IP Address:** A static IP address for the NGINX frontend.
 * **Managed Identity:** A user-assigned identity for secure, secret-less access to Azure services.
+* **Azure VM Running the Cafe and Juice Shop Applications:** "Upstream" backend applications to be proxied by NGINX for Azure.
 
 ## Prerequisites
 
@@ -24,7 +25,7 @@ To maximize our time during this workshop, the following baseline infrastructure
 - See `Lab0` for instructions on setting up your system for this Workshop
 - Familiarity with basic Linux concepts and commands
 - Familiarity with basic Azure concepts and commands
-- Familiarity with basic Nginx concepts and commands
+- Familiarity with basic NGINX concepts and commands
 
 <br/>
 
