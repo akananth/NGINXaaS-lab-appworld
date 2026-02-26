@@ -14,7 +14,6 @@ To maximize our time during this workshop, the following baseline infrastructure
 * **Azure Resource Group:** A dedicated container for all workshop resources.
 * **Virtual Network & Subnets:** A VNet including a delegated subnet specifically for NGINX for Azure.
 * **Network Security Group (NSG):** Pre-configured rules for inbound traffic (Port 80/443).
-* **Public IP Address:** A static IP address for the NGINX frontend.
 * **Managed Identity:** A user-assigned identity for secure, secret-less access to Azure services.
 * **Azure VM Running the Cafe and Juice Shop Applications:** "Upstream" backend applications to be proxied by NGINX for Azure.
 
