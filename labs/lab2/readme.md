@@ -172,7 +172,7 @@ types {
 #### 5. Update the Main NGINX Configuration
 1. You must now include these new files into your main nginx.conf.
 
-2. Select the nginx.conf file in the editor file tree.
+2. Select the `nginx.conf` file in the editor file tree.
 
 3. Replace the existing content with the following:
 
