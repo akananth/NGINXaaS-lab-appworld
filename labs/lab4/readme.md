@@ -200,3 +200,5 @@ NGXOperationLogs
 
   
 Congratulations on completing Lab 4!
+
+[Continue to Lab5](../lab5/readme.md)

@@ -213,6 +213,8 @@ In this section you will create an extended log format which you will use with `
 
 **This completes Lab3.**
 
+[Continue to Lab4](../lab4/readme.md)
+
 ## References:
 
 - [NGINX As A Service for Azure](https://docs.nginx.com/nginxaas/azure/)

@@ -153,10 +153,6 @@ Now, test out the newly-deployed default WAF policy.
      http://juiceshop.example.com/product?code=echo%20shell_exec(%27/sbin/ifconfig%20eth0%27);
 ```
 
-> Note:
->   *The web application firewall is blocking these requests to protect the application. The block page can*
->   *be customized to provide additional information.*
-
    ## Expected Results
 
 If you applied the WAF policy correctly, each request should result in a page that indicates the URL was rejected.
@@ -164,3 +160,12 @@ If you applied the WAF policy correctly, each request should result in a page th
 |           Web Browser            |
 | :--------------------------------------: |
 | ![NGINX aaS](WAF%20-%20URL%20block%20page.png) |
+
+> Note:
+>   *The web application firewall is blocking these requests to protect the application. The block page can*
+>   *be customized to provide additional information.*
+> 
+
+
+---
+**Congratulations!** You have now completed the NGINXaaS for Azure workshop!

@@ -126,6 +126,7 @@ In this section you will be looking at NGINX for Azure resource that you created
 
 **This completes Lab1.**
 
+[Continue to Lab2](../lab2/readme.md)
 
 
 
