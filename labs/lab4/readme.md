@@ -8,8 +8,6 @@ Welcome to **Lab 4**. In this module of **"Mastering cloud-native app delivery,"
 ## 🏗️ Pre-provisioned Infrastructure
 The following resources are prepared for this lab:
 * **Ubuntu VM:** Running OWASP Juice Shop in a Docker container on **Port 3000**.
-* **Internal IP:** Your instructor will provide the private IP of the Juice Shop VM.
-
 ---
 
 ## 🚀 Lab Exercises
