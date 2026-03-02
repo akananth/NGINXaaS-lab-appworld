@@ -36,9 +36,10 @@ To maximize our time during this workshop, the following baseline infrastructure
 ## 🚀 Lab Exercises
 
 ### Task 1: Access Your Azure Account
-When you initially access the Azure portal, you will need to sign in and authenticate though an authenticator app.
-User name: _nn_.student@f5nginxpert.onmicrosoft.com (Use your assigned student number in place of _nn_.)
-Password: This will be provided by your lab instructors.
+When you initially access the Azure portal, you will need to sign in and authenticate though an authenticator app. Begin by going to https://portal.azure.com/signin/index/@f5nginxpert.onmicrosoft.com from your desktop browser. If you have an existing Azure account, we recommend opening this link in an incognito window in order to avoid conflicts.
+
+- User name: `[student-number].student@f5nginxpert.onmicrosoft.com` (Use your assigned student number in place of `[student-number]`.)
+- Password: This will be provided by your lab instructors.
 
 ### Task 2: Deploy an NGINX for Azure Resource
 Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisioned network and identity.
