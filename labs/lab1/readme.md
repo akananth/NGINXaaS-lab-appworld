@@ -48,8 +48,8 @@ Now, you will deploy the NGINX for Azure resource and bind it to the pre-provisi
     * **Terms** You will need to accept the terms to continue.
     * **NCU Capacity:** Enter 10 for the NGINX Capacity Unit (NCU) or higher if directed otherwise.
 4.  **Networking Tab:**
-    * **Virtual Network:** Select the VNet assigned to your resource group.
-    * **Subnet:** Select the delegated subnet designated for NGINX.
+    * **Virtual Network:** Select the VNet (`appworld2026`) assigned to your resource group.
+    * **Subnet:** Select the delegated subnet designated for NGINX (`default subnet`).
     * **Access Consent:** Click the checkbox for **"I allow NGINX service provider to access the above virtual network for deployment."**
     * **Public IP:** Select the pre-provisioned Public IP address.
     * **Public inbound ports:** Select "Allow selected ports" and check "Select all" in the drop-down menu.
