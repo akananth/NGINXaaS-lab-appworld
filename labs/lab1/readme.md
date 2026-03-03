@@ -31,6 +31,18 @@ To maximize our time during this workshop, the following baseline infrastructure
 <br/>
 
 ---
+.. raw:: html
+
+   <div style="margin: 1em 0; padding: 1em; border: 0px solid #ccc;">
+     <label for="UniqueValueInput">Enter Unique Value:</label>
+     <input id="UniqueValueInput" type="text" placeholder="e.g. FirstInitial.LastName, Favorite Animal" />
+     <button onclick="setUniqueValue()">Save</button>
+   </div>
+
+   <p><strong>Current Value:</strong> <span id="currentValue">&lt;namespace&gt;</span></p>
+
+.. note:: You may have had a namespace from a previous lab, pleased update with the new. 
+.. warning:: Guide pages might need to be refreshed to get updated namespace to render.
 
 ## 🚀 Lab Exercises
 
